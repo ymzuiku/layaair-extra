@@ -17,7 +17,7 @@ const recursionGet = memoize(function(
       }
     }
     const className = name || (childs[i].__proto__.__className as string);
-    const key = className.split('.')[2] + '_' + i;
+    const key = className.split('.')[2] + '-' + i;
     tree[key] = obj;
     recursionGet(obj, _childs, tree[key]);
   }

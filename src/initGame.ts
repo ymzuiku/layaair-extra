@@ -44,14 +44,8 @@ function initGame(props: IScreenOfCreator) {
     }
   }
   Config.isAntialias = isAntialias === undefined ? true : isAntialias;
-  let iw = 750;
-  let ih = 1334;
-  try {
-    if (window.innerWidth > 375) {
-      iw = 1080;
-      ih = 1920;
-    }
-  } catch (err) {}
+  let iw = 1080;
+  let ih = 1920;
   if (type === 'vertical' || type === 'v') {
     air.init(width || iw, height || ih, air.WebGL);
     air.stage.scaleMode = scaleMode || air.Stage.SCALE_FIXED_WIDTH;
