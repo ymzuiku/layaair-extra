@@ -44,14 +44,21 @@ function initGame(props: IScreenOfCreator) {
     }
   }
   Config.isAntialias = isAntialias === undefined ? true : isAntialias;
-
+  let iw = 750;
+  let ih = 1334;
+  try {
+    if (window.innerWidth > 375) {
+      iw = 1080;
+      ih = 1920;
+    }
+  } catch (err) {}
   if (type === 'vertical' || type === 'v') {
-    air.init(width || 750, height || 1334, air.WebGL);
+    air.init(width || iw, height || ih, air.WebGL);
     air.stage.scaleMode = scaleMode || air.Stage.SCALE_FIXED_WIDTH;
     air.stage.screenMode = screenMode || air.Stage.SCREEN_VERTICAL;
     air.stage.frameRate = frameRate || air.Stage.FRAME_FAST;
   } else if (type === 'horizontal' || type === 'h') {
-    air.init(width || 1334, height || 750, air.WebGL);
+    air.init(width || ih, height || iw, air.WebGL);
     air.stage.scaleMode = scaleMode || air.Stage.SCALE_FIXED_HEIGHT;
     air.stage.screenMode = screenMode || air.Stage.SCREEN_HORIZONTAL;
     air.stage.frameRate = frameRate || air.Stage.FRAME_FAST;
