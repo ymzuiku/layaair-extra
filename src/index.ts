@@ -3,7 +3,7 @@ utils.fullPage();
 
 import air from './air';
 import initGame from './initGame';
-import * as extra from './extra';
-import * as flex from './flex';
+import * as airExtra from './extra';
+import flex from './flex';
 
-export { extra, air, initGame, utils, flex };
+export { airExtra, air, initGame, utils, flex };
