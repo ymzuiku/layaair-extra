@@ -1,0 +1,27 @@
+{
+  "name": "layaair-extra",
+  "version": "0.0.2",
+  "description": "",
+  "main": "src",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ymzuiku/layaair-extra.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ymzuiku/layaair-extra/issues"
+  },
+  "homepage": "https://github.com/ymzuiku/layaair-extra#readme",
+  "dependencies": {
+    "fingerprintjs2": "^1.8.1",
+    "react": "^16.4.2"
+  },
+  "devDependencies": {
+    "typescript": "^3.0.1"
+  }
+}

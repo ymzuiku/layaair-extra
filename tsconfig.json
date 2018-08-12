@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es5",
+    "jsx": "react",
+    "jsxFactory": "JSX"
+  },
+  "exclude": ["node_modules"]
+}
