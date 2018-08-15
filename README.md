@@ -2,8 +2,6 @@
 
 lib is fork laya-air: [http://ldc.layabox.com/](http://ldc.layabox.com/)
 
-layaair-extra is [MIT licensed](./LICENSE).
-
 ## 安装
 
 ```sh
@@ -59,3 +57,8 @@ $ pillar-pack
 ```
 
 浏览器预览 `http://127.0.0.1:3100/index.dev.html`
+
+
+## licensed
+
+layaair-extra is [MIT licensed](./LICENSE).
