@@ -1,4 +1,3 @@
-import '../exp/LayaCore';
 import * as utils from './utils';
 utils.fullPage();
 
