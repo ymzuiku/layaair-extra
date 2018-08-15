@@ -1,6 +1,4 @@
-import air from './air';
-
-interface IScreenOfCreator {
+export interface IScreenOfCreator {
   RootComponent?: any;
   isShowStat?: boolean;
   isShowDebugPanel?: boolean;
@@ -37,7 +35,7 @@ function initGame(props: IScreenOfCreator) {
   } = props;
   function createCallback() {
     if (RootComponent) {
-      air.stage.addChild(new RootComponent());
+      Laya.stage.addChild(new RootComponent());
     }
     if (compeleted) {
       compeleted();
@@ -47,51 +45,51 @@ function initGame(props: IScreenOfCreator) {
   let iw = 1080;
   let ih = 1920;
   if (type === 'vertical' || type === 'v') {
-    air.init(width || iw, height || ih, air.WebGL);
-    air.stage.scaleMode = scaleMode || air.Stage.SCALE_FIXED_WIDTH;
-    air.stage.screenMode = screenMode || air.Stage.SCREEN_VERTICAL;
-    air.stage.frameRate = frameRate || air.Stage.FRAME_FAST;
+    Laya.init(width || iw, height || ih, Laya.WebGL);
+    Laya.stage.scaleMode = scaleMode || Laya.Stage.SCALE_FIXED_WIDTH;
+    Laya.stage.screenMode = screenMode || Laya.Stage.SCREEN_VERTICAL;
+    Laya.stage.frameRate = frameRate || Laya.Stage.FRAME_FAST;
   } else if (type === 'horizontal' || type === 'h') {
-    air.init(width || ih, height || iw, air.WebGL);
-    air.stage.scaleMode = scaleMode || air.Stage.SCALE_FIXED_HEIGHT;
-    air.stage.screenMode = screenMode || air.Stage.SCREEN_HORIZONTAL;
-    air.stage.frameRate = frameRate || air.Stage.FRAME_FAST;
+    Laya.init(width || ih, height || iw, Laya.WebGL);
+    Laya.stage.scaleMode = scaleMode || Laya.Stage.SCALE_FIXED_HEIGHT;
+    Laya.stage.screenMode = screenMode || Laya.Stage.SCREEN_HORIZONTAL;
+    Laya.stage.frameRate = frameRate || Laya.Stage.FRAME_FAST;
   } else if (type === 'desktop' || type === 'd') {
-    air.init(
+    Laya.init(
       width || window.innerWidth,
       height || window.innerHeight,
-      air.WebGL,
+      Laya.WebGL,
     );
-    air.stage.scaleMode = scaleMode || air.Stage.SCALE_FULL;
-    air.stage.screenMode = screenMode || air.Stage.SCREEN_NONE;
-    air.stage.frameRate = frameRate || air.Stage.FRAME_MOUSE;
+    Laya.stage.scaleMode = scaleMode || Laya.Stage.SCALE_FULL;
+    Laya.stage.screenMode = screenMode || Laya.Stage.SCREEN_NONE;
+    Laya.stage.frameRate = frameRate || Laya.Stage.FRAME_MOUSE;
   } else {
     if (scaleMode) {
-      air.stage.scaleMode = scaleMode;
+      Laya.stage.scaleMode = scaleMode;
     }
     if (screenMode) {
-      air.stage.screenMode = screenMode;
+      Laya.stage.screenMode = screenMode;
     }
     if (screenMode) {
-      air.stage.frameRate = frameRate;
+      Laya.stage.frameRate = frameRate;
     }
   }
-  air.stage.bgColor = bgColor || '#f3f3f4';
-  air.stage.destroyChildren();
+  Laya.stage.bgColor = bgColor || '#f3f3f4';
+  Laya.stage.destroyChildren();
   if (isShowStat) {
-    air.Stat.show(30, 30);
+    Laya.Stat.show(30, 30);
   }
   if (statPosition) {
-    air.Stat.show(statPosition[0], statPosition[1]);
+    Laya.Stat.show(statPosition[0], statPosition[1]);
   }
 
   function runInitStartGame() {
     if (versionFile) {
       const file = typeof versionFile === 'string' ? versionFile : 'version.json';
-      air.ResourceVersion.enable(
+      Laya.ResourceVersion.enable(
         file,
-        air.Handler.create(null, createCallback),
-        air.ResourceVersion.FILENAME_VERSION,
+        Laya.Handler.create(null, createCallback),
+        Laya.ResourceVersion.FILENAME_VERSION,
       );
     } else {
       createCallback();

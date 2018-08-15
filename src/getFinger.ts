@@ -1,4 +1,4 @@
-import finger from 'fingerprintjs2';
+import finger from 'fingerprintjs2'
 
 function getFinger(cb) {
   try {
@@ -10,4 +10,4 @@ function getFinger(cb) {
   }
 }
 
-export default getFinger
+export default getFinger;

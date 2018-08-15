@@ -1,10 +1,9 @@
-import air from '../air';
 import memoize from '../utils/memoize';
 
 // recursion
 const recursionGet = memoize(function(
-  node: air.Sprite,
-  childs: Array<air.Sprite>,
+  node: Laya.Sprite,
+  childs: Array<Laya.Sprite>,
   tree: Object,
 ) {
   for (let i = 0; i < childs.length; i++) {
@@ -23,7 +22,7 @@ const recursionGet = memoize(function(
   }
 });
 
-function getNodeTree(node: air.Sprite = air.stage, log?: boolean) {
+function getNodeTree(node: Laya.Sprite = Laya.stage, log?: boolean) {
   let tree = {};
   let { name, x, y, width, height, _childs } = node;
   let temp = { name, x, y, width, height };

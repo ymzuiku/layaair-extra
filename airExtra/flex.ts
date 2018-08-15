@@ -1,13 +1,11 @@
-import air from './air';
-
-function full(node: air.Sprite, parent?: air.Sprite) {
-  const father = parent || (node.parent as air.Sprite);
+function full(node: Laya.Sprite, parent?: Laya.Sprite) {
+  const father = parent || (node.parent as Laya.Sprite);
   node.width = father.width;
   node.height = father.height;
 }
 
 function rule(
-  node: air.Sprite,
+  node: Laya.Sprite,
   direction: string = 'col',
   justify: string = 'start',
   align: string = 'start',
@@ -25,7 +23,7 @@ function rule(
       param = 'width';
     }
     for (let i = 0; i < node.numChildren; i++) {
-      const sub = node.getChildAt(i) as air.Sprite;
+      const sub = node.getChildAt(i) as Laya.Sprite;
       if (sub['flex'] !== undefined) {
         flexs += sub['flex']
       } else {
@@ -33,7 +31,7 @@ function rule(
       }
     }
     for (let i = 0; i < node.numChildren; i++) {
-      const sub = node.getChildAt(i) as air.Sprite;
+      const sub = node.getChildAt(i) as Laya.Sprite;
       if (flexs > 0 && sub['flex'] !== undefined) {
         if (sub['flex'] === 0) {
           sub[param] = 0;
@@ -57,7 +55,7 @@ function rule(
       sh += sub.height + space;
     }
     for (let i = 0; i < node.numChildren; i++) {
-      const sub = node.getChildAt(i) as air.Sprite;
+      const sub = node.getChildAt(i) as Laya.Sprite;
       if (direction === 'row') {
         if (justify === 'start') {
           sub.x = w;

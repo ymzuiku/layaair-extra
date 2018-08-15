@@ -1,5 +1,3 @@
-import air from '../air';
-
 function drawRadius(w, h, r) {
   return [
     ['moveTo', r, 0], //画笔的起始点，
@@ -11,7 +9,7 @@ function drawRadius(w, h, r) {
 }
 
 export function drawRect(
-  sprite: air.Sprite,
+  sprite: Laya.Sprite,
   bgColor: string,
   lineColor?: string,
   lineWidth?: number,
@@ -28,7 +26,7 @@ export function drawRect(
 }
 
 export function drawRectOfRadius(
-  sprite: air.Sprite,
+  sprite: Laya.Sprite,
   bgColor: string,
   lineColor?: string,
   lineWidth?: number,

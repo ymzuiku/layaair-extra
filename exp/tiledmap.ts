@@ -1,1 +1,0 @@
-import '../bin/libs/laya.tiledmap.js'
