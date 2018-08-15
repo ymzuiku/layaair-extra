@@ -430,11 +430,51 @@ interface IWidgetInfo {
 }
 
 interface IKey {
-  addEventListener: (keyevent:IKeyType, listener, capture?) => any;
+  addEventListener: (
+    keyevent:
+      | any
+      | 'backbutton'
+      | 'keydown'
+      | 'keyup'
+      | 'longpressed'
+      | 'menubutton'
+      | 'searchbutton'
+      | 'volumeupbutton'
+      | 'volumedownbutton',
+    listener: (keyEvent: IKeyEvent) => any,
+    capture?,
+  ) => any;
+  hideSoftKeybord: () => any;
+  setAssistantType: (
+    type:
+      | string
+      | 'nick'
+      | 'address'
+      | 'tel'
+      | 'email'
+      | 'company'
+      | 'tax'
+      | 'id'
+      | 'none',
+  ) => any;
+  showSoftKeybord: () => any;
+  removeEventListener: (
+    evnet:
+      | any
+      | 'backbutton'
+      | 'keydown'
+      | 'keyup'
+      | 'longpressed'
+      | 'menubutton'
+      | 'searchbutton'
+      | 'volumeupbutton'
+      | 'volumedownbutton',
+    listener: (keyEvent: IKeyEvent) => any,
+  ) => any;
 }
 
-interface IKeyType {
-
+interface IKeyEvent {
+  keyCode: string;
 }
 
 declare namespace plus {
@@ -449,7 +489,7 @@ declare namespace plus {
   export const gallery;
   export const geolocation;
   export const io;
-  export const key;
+  export const key: IKey;
   export const maps;
   export const messaging;
   export const nativeObj;
