@@ -16,7 +16,7 @@ interface IScreenOfCreator {
   frameRate?: string;
   bgColor?: string;
   compeleted?: Function;
-  type?: string;
+  type?: string | 'vertical' | 'horizontal' | 'desktop';
 }
 
 interface IExtra {
