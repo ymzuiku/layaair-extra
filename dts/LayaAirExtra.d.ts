@@ -19,22 +19,6 @@ interface IScreenOfCreator {
   type?: string | 'vertical' | 'horizontal' | 'desktop';
 }
 
-interface IExtra {
-  drawRect: (
-    sprite: Laya.Sprite,
-    bgColor: string,
-    lineColor?: string,
-    lineWidth?: number,
-  ) => void;
-  drawRectOfRadius: (
-    sprite: Laya.Sprite,
-    bgColor: string,
-    lineColor?: string,
-    lineWidth?: number,
-    radius?: number,
-  ) => void;
-}
-
 interface IDevice {
   appVersion: string;
   trident: boolean; //IE内核
@@ -53,17 +37,6 @@ interface IDevice {
   isIPhoneX: boolean;
 }
 
-interface IFlex {
-  full: (node: Laya.Sprite, parent?: Laya.Sprite) => void;
-  rule: (
-    node: Laya.Sprite,
-    direction?: 'col' | 'row',
-    justify?: 'start' | 'center' | 'end' | 'between',
-    align?: 'start' | 'center' | 'end',
-    space?: number,
-  ) => void;
-}
-
 interface IUtils {
   uuid: () => string;
   device: IDevice;
@@ -74,8 +47,29 @@ interface IUtils {
 }
 
 declare namespace air {
-  export const extra: IExtra;
-  export const flex: IFlex;
+  export const drawRect: (
+    sprite: Laya.Sprite,
+    bgColor: string,
+    lineColor?: string,
+    lineWidth?: number,
+  ) => void;
+  export const drawRectOfRadius: (
+    sprite: Laya.Sprite,
+    bgColor: string,
+    lineColor?: string,
+    lineWidth?: number,
+    radius?: number,
+  ) => void;
   export const initGame: (props: IScreenOfCreator) => void;
   export const utils: IUtils;
+  export function full(node: Laya.Sprite, parent?: Laya.Sprite): void;
+  export function flex(
+    node: Laya.Sprite,
+    direction?: 'col' | 'row',
+    justify?: 'start' | 'center' | 'end' | 'between',
+    align?: 'start' | 'center' | 'end',
+    space?: number,
+  ): void;
+  export const getNodeTree: (node: Laya.Sprite, log?: boolean) => any;
+  export const apply: (target: any, obj: Object) => void;
 }

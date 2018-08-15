@@ -4,7 +4,7 @@ function full(node: Laya.Sprite, parent?: Laya.Sprite) {
   node.height = father.height;
 }
 
-function rule(
+function flex(
   node: Laya.Sprite,
   direction: string = 'col',
   justify: string = 'start',
@@ -25,7 +25,7 @@ function rule(
     for (let i = 0; i < node.numChildren; i++) {
       const sub = node.getChildAt(i) as Laya.Sprite;
       if (sub['flex'] !== undefined) {
-        flexs += sub['flex']
+        flexs += sub['flex'];
       } else {
         tempLen += sub[param] + space;
       }
@@ -109,9 +109,4 @@ function rule(
   }
 }
 
-const flex = {
-  rule,
-  full,
-};
-
-export default flex;
+export { flex, full };

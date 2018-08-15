@@ -3,14 +3,27 @@ import * as utils from './utils';
 utils.fullPage();
 
 import initGame from './initGame';
-import * as extra from './extra';
-import flex from './flex';
+import { drawRect, drawRectOfRadius, getNodeTree, apply } from './extra';
+import { full, flex } from './layout';
 
 window['air'] = {
-  extra,
+  drawRect,
+  drawRectOfRadius,
+  getNodeTree,
+  apply,
   initGame,
   utils,
+  full,
   flex,
 };
 
-export { extra, initGame, utils, flex };
+export {
+  drawRect,
+  drawRectOfRadius,
+  getNodeTree,
+  apply,
+  initGame,
+  utils,
+  full,
+  flex,
+};
