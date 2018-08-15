@@ -15,7 +15,7 @@ interface IScreenOfCreator {
   screenMode?: string;
   frameRate?: string;
   bgColor?: string;
-  initend?: Function;
+  compeleted?: Function;
   type?: string;
 }
 
@@ -32,15 +32,15 @@ function initGame(props: IScreenOfCreator) {
     scaleMode,
     screenMode,
     frameRate,
-    initend,
+    compeleted,
     type,
   } = props;
   function createCallback() {
     if (RootComponent) {
       air.stage.addChild(new RootComponent());
     }
-    if (initend) {
-      initend();
+    if (compeleted) {
+      compeleted();
     }
   }
   Config.isAntialias = isAntialias === undefined ? true : isAntialias;
@@ -85,16 +85,26 @@ function initGame(props: IScreenOfCreator) {
     air.Stat.show(statPosition[0], statPosition[1]);
   }
 
-  if (versionFile) {
-    const file = typeof versionFile === 'string' ? versionFile : 'version.json';
-    air.ResourceVersion.enable(
-      file,
-      air.Handler.create(null, createCallback),
-      air.ResourceVersion.FILENAME_VERSION,
-    );
-  } else {
-    createCallback();
+  function runInitStartGame() {
+    if (versionFile) {
+      const file = typeof versionFile === 'string' ? versionFile : 'version.json';
+      air.ResourceVersion.enable(
+        file,
+        air.Handler.create(null, createCallback),
+        air.ResourceVersion.FILENAME_VERSION,
+      );
+    } else {
+      createCallback();
+    }
   }
+
+  if (window['plan'] === 'h5plus') {
+    // 扩展API加载完毕后调用回调函数
+    document.addEventListener('plusready', runInitStartGame, false);
+  } else {
+    runInitStartGame();
+  }
+
 }
 
 export default initGame;
