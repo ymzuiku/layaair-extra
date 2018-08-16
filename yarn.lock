@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-fingerprintjs2@^1.8.1:
-  version "1.8.1"
-  resolved "https://registry.yarnpkg.com/fingerprintjs2/-/fingerprintjs2-1.8.1.tgz#68fd7a134bf9b197674ce551d16a5175270bab11"
+native.d.ts@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/native.d.ts/-/native.d.ts-0.1.2.tgz#0ea21dd340c543d6c3d5f3bbf100c15a217bf5b4"
 
 typescript@^3.0.1:
   version "3.0.1"

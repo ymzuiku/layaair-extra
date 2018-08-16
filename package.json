@@ -19,5 +19,8 @@
   "homepage": "https://github.com/ymzuiku/layaair-extra#readme",
   "devDependencies": {
     "typescript": "^3.0.1"
+  },
+  "dependencies": {
+    "native.d.ts": "^0.1.2"
   }
 }
