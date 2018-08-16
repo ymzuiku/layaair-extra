@@ -1425,7 +1425,42 @@ declare class IXMLHttpRequest {
 }
 
 interface IZip {
+  compress(
+    src?: string,
+    zipfile?: string,
+    successCB?: Function,
+    errorCB?: Function,
+  );
+  decompress(
+    zipfile?: string,
+    target?: string,
+    successCB?: Function,
+    errorCB?: Function,
+  );
+  compressImage(
+    options?: CompressImageOptions,
+    successCB?: Function,
+    errorCB?: Function,
+  );
+}
 
+interface CompressImageOptions {
+  src?: string;
+  dst?: string;
+  overwrite?: boolean;
+  format?: string;
+  quality?: number;
+  width?: string;
+  height?: string;
+  rotate?: number;
+  clip: ClipImageOptions;
+}
+
+interface ClipImageOptions {
+  top?: string;
+  left?: string;
+  width?: string;
+  height?: string;
 }
 
 declare namespace plus {
