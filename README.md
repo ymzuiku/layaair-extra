@@ -18,12 +18,9 @@ $ touch src/index.ts
 在 `src/index.ts` 编写以下代码:
 
 ```js
-// 引入d.ts文件: Laya, air, plus(native.js)
-import 'layaair-extra';
+import { air, Laya, plus } from 'layaair-extra';
 
-// 如果要用Laya,就需要引入相应的Laya库
-import 'layaair-extra/src/LayaAirExtra';
-import 'layaair-extra/src/LayaCore';
+// 如果要用Laya开发游戏、使用Laya的Debug工具
 import 'layaair-extra/src/LayaGame';
 import 'layaair-extra/src/LayaDebugTool';
 

@@ -14,7 +14,7 @@ export interface IScreenOfCreator {
   frameRate?: string;
   bgColor?: string;
   compeleted?: Function;
-  type?: string;
+  type?: 'vertical' | 'horizontal' | 'desktop';
 }
 
 function initGame(props: IScreenOfCreator) {
@@ -85,7 +85,8 @@ function initGame(props: IScreenOfCreator) {
 
   function runInitStartGame() {
     if (versionFile) {
-      const file = typeof versionFile === 'string' ? versionFile : 'version.json';
+      const file =
+        typeof versionFile === 'string' ? versionFile : 'version.json';
       Laya.ResourceVersion.enable(
         file,
         Laya.Handler.create(null, createCallback),
@@ -102,7 +103,6 @@ function initGame(props: IScreenOfCreator) {
   } else {
     runInitStartGame();
   }
-
 }
 
 export default initGame;

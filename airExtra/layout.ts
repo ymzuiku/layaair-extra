@@ -6,9 +6,9 @@ function full(node: Laya.Sprite, parent?: Laya.Sprite) {
 
 function flex(
   node: Laya.Sprite,
-  direction: string = 'col',
-  justify: string = 'start',
-  align: string = 'start',
+  direction: 'col' | 'row' = 'col',
+  justify: 'start' | 'center' | 'end' | 'between' = 'start',
+  align: 'start' | 'center' | 'end' = 'start',
   space: number = 0,
 ) {
   if (node.numChildren > 0) {
