@@ -7,4 +7,8 @@ import '../libs/laya.filter.js';
 import '../libs/laya.html.js';
 import '../libs/laya.ui.js';
 
+import '../libs/laya.particle.js';
+import '../libs/laya.tiledmap.js'
+
+
 export default Laya;

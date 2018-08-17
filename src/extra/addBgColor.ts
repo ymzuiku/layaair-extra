@@ -28,9 +28,9 @@ export function drawRect(
 export function drawRectOfRadius(
   sprite: Laya.Sprite,
   bgColor: string,
+  radius?: number,
   lineColor?: string,
   lineWidth?: number,
-  radius?: number,
 ) {
   sprite.graphics.drawPath(
     0,
@@ -45,3 +45,4 @@ export function drawRectOfRadius(
       : undefined,
   );
 }
+

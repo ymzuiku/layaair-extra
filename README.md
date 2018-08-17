@@ -27,7 +27,7 @@ import 'layaair-extra/src/LayaDebugTool';
 class App extends Laya.Sprite {
   constructor() {
     super();
-    // do someting
+    // do something
     const label = new Laya.Text();
     label.text = 'Hello LayaAir Extra';
     label.fontSize = 40;
@@ -39,10 +39,10 @@ air.initGame({
   RootComponent: App,
   type: 'vertical',
   statPosition: [30, 30],
-  compeleted: startGame,
+  completed: startGame,
 });
 function startGame() {
-  // do someting
+  // do something
 }
 ```
 

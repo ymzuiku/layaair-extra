@@ -13,7 +13,7 @@ export interface IScreenOfCreator {
   screenMode?: string;
   frameRate?: string;
   bgColor?: string;
-  compeleted?: Function;
+  completed?: Function;
   type?: 'vertical' | 'horizontal' | 'desktop';
 }
 
@@ -30,31 +30,33 @@ function initGame(props: IScreenOfCreator) {
     scaleMode,
     screenMode,
     frameRate,
-    compeleted,
+    completed,
     type,
   } = props;
   function createCallback() {
-    if (RootComponent) {
-      Laya.stage.addChild(new RootComponent());
-    }
-    if (compeleted) {
-      compeleted();
-    }
+    setTimeout(() => {
+      if (RootComponent) {
+        Laya.stage.addChild(new RootComponent());
+      }
+      if (completed) {
+        completed();
+      }
+    });
   }
   Config.isAntialias = isAntialias === undefined ? true : isAntialias;
   let iw = 1080;
   let ih = 1920;
-  if (type === 'vertical' || type === 'v') {
+  if (type === 'vertical') {
     Laya.init(width || iw, height || ih, Laya.WebGL);
     Laya.stage.scaleMode = scaleMode || Laya.Stage.SCALE_FIXED_WIDTH;
     Laya.stage.screenMode = screenMode || Laya.Stage.SCREEN_VERTICAL;
     Laya.stage.frameRate = frameRate || Laya.Stage.FRAME_FAST;
-  } else if (type === 'horizontal' || type === 'h') {
+  } else if (type === 'horizontal') {
     Laya.init(width || ih, height || iw, Laya.WebGL);
     Laya.stage.scaleMode = scaleMode || Laya.Stage.SCALE_FIXED_HEIGHT;
     Laya.stage.screenMode = screenMode || Laya.Stage.SCREEN_HORIZONTAL;
     Laya.stage.frameRate = frameRate || Laya.Stage.FRAME_FAST;
-  } else if (type === 'desktop' || type === 'd') {
+  } else if (type === 'desktop') {
     Laya.init(
       width || window.innerWidth,
       height || window.innerHeight,
