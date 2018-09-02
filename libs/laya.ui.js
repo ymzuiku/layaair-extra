@@ -3596,6 +3596,7 @@ var ScrollBar=(function(_super){
 		return this._mouseWheelEnable;
 		},function(value){
 		this._mouseWheelEnable=value;
+		this.target=this._target;
 	});
 
 	/**
@@ -5795,9 +5796,9 @@ var List=(function(_super){
 		this._createdLine=0;
 		/**@private */
 		this._cellChanged=false;
-		List.__super.call(this);
 		this._cells=[];
 		this._offset=new Point();
+		List.__super.call(this);
 	}
 
 	__class(List,'laya.ui.List',_super);
@@ -6710,9 +6711,7 @@ var Panel=(function(_super){
 	__proto.removeChildren=function(beginIndex,endIndex){
 		(beginIndex===void 0)&& (beginIndex=0);
 		(endIndex===void 0)&& (endIndex=0x7fffffff);
-		for (var i=this._content.numChildren-1;i >-1;i--){
-			this._content.removeChildAt(i);
-		}
+		this._content.removeChildren(beginIndex,endIndex);
 		this._setScrollChanged();
 		return this;
 	}

@@ -362,7 +362,7 @@ var ___Laya=(function(){
 		if (value){
 			Browser.window.onerror=function (msg,url,line,column,detail){
 				if (erralert++< 5 && detail)
-					alert("出错啦，请把此信息截图给研发商\n"+msg+"\n"+detail.stack||detail);
+					alert("出错啦，请把此信息截图给研发商\n"+msg+"\n"+detail.stack || detail);
 			}
 			}else {
 			Browser.window.onerror=null;
@@ -390,7 +390,7 @@ var ___Laya=(function(){
 		CacheManager.beginCheck();
 		Laya._currentStage=Laya.stage=new Stage();
 		Laya.stage.conchModel && Laya.stage.conchModel.setRootNode();
-		Laya.getUrlPath();
+		Laya._getUrlPath();
 		Laya.render=new Render(0,0);
 		Laya.stage.size(width,height);
 		RenderSprite.__init__();
@@ -402,7 +402,7 @@ var ___Laya=(function(){
 		return Render.canvas;
 	}
 
-	Laya.getUrlPath=function(){
+	Laya._getUrlPath=function(){
 		var location=Browser.window.location;
 		var pathName=location.pathname;
 		pathName=pathName.charAt(2)==':' ? pathName.substring(1):pathName;
@@ -418,20 +418,20 @@ var ___Laya=(function(){
 	}
 
 	Laya._runScript=function(script){
-		return Browser.window["e"+String.fromCharCode(100+10+8)+"a"+"l"](script);
+		return Browser.window[Laya._evcode](script);
 	}
 
 	Laya.stage=null;
 	Laya.timer=null;
 	Laya.scaleTimer=null;
 	Laya.loader=null;
-	Laya.version="1.7.19.1beta";
+	Laya.version="1.7.20.1beta";
 	Laya.render=null;
 	Laya._currentStage=null;
 	Laya._isinit=false;
 	Laya.MiniAdpter=/*__JS__ */{init:function(){if (window.navigator && window.navigator.userAgent && window.navigator.userAgent.indexOf("MiniGame")>-1)console.error("请先引用小游戏适配库laya.wxmini.js,详细教程：https://ldc.layabox.com/doc/?nav=zh-ts-5-0-0")}};
 	__static(Laya,
-	['conchMarket',function(){return this.conchMarket=/*__JS__ */window.conch?conchMarket:null;},'PlatformClass',function(){return this.PlatformClass=/*__JS__ */window.PlatformClass;}
+	['conchMarket',function(){return this.conchMarket=/*__JS__ */window.conch?conchMarket:null;},'PlatformClass',function(){return this.PlatformClass=/*__JS__ */window.PlatformClass;},'_evcode',function(){return this._evcode="e"+String.fromCharCode(100+10+8)+"a"+"l";}
 	]);
 	return Laya;
 })()
@@ -1291,7 +1291,7 @@ var Font=(function(){
 	*规定添加到文本的修饰。
 	*/
 	__getset(0,__proto,'decoration',function(){
-		return this._decoration ? this._decoration.value :"none";
+		return this._decoration ? this._decoration.value :null;
 		},function(value){
 		var strs=value.split(' ');
 		this._decoration || (this._decoration={});
@@ -2162,7 +2162,12 @@ var Graphics=(function(){
 				x+=tex.offsetX;
 				y+=tex.offsetY;
 				var uv=tex.uv,w=tex.bitmap.width,h=tex.bitmap.height;
-				this.drawImageM(tex.bitmap.source,uv[0] *w,uv[1] *h,(uv[2]-uv[0])*w,(uv[5]-uv[3])*h,x,y,width,height,m,alpha);
+				if (uv[4] < uv[0] && uv[5] < uv[1]){
+					this.drawImageM(tex.bitmap.source,uv[4] *w,uv[5] *h,(uv[0]-uv[4])*w,(uv[1]-uv[5])*h,x,y,width,height,m,alpha);
+				}
+				else {
+					this.drawImageM(tex.bitmap.source,uv[0] *w,uv[1] *h,(uv[2]-uv[0])*w,(uv[5]-uv[3])*h,x,y,width,height,m,alpha);
+				}
 				this._repaint();
 			}
 			from.fillTexture=function (tex,x,y,width,height,type,offset){
@@ -4965,7 +4970,9 @@ var SoundManager=(function(){
 		if (!tSound){
 			tSound=new soundClass();
 			tSound.load(url);
-			Loader.cacheRes(url,tSound);
+			if (!Browser.onMiniGame){
+				Loader.cacheRes(url,tSound);
+			}
 		};
 		var channel;
 		channel=tSound.play(startTime,loops);
@@ -5135,7 +5142,7 @@ var LocalStorage=(function(){
 			function Storage(){}
 			__class(Storage,'');
 			Storage.init=function(){
-				/*__JS__ */try{Storage.items=window.localStorage;Storage.setItem('laya','1');Storage.removeItem('laya');Storage.support=true;}catch(e){}if(!Storage.support)console.log('LocalStorage is not supprot or browser is private mode.');
+				/*__JS__ */try{Storage.support=true;Storage.items=window.localStorage;Storage.setItem('laya','1');Storage.removeItem('laya');}catch(e){Storage.support=false;}if(!Storage.support)console.log('LocalStorage is not supprot or browser is private mode.');
 			}
 			Storage.setItem=function(key,value){
 				try {
@@ -5438,7 +5445,7 @@ var Render=(function(){
 		Render._context=new RenderContext(width,height,isWebGl ? null :Render._mainCanvas);
 		Render._context.ctx.setIsMainContext();
 		Browser.window.requestAnimationFrame(loop);
-		function loop (){
+		function loop (stamp){
 			Laya.stage._loop();
 			Browser.window.requestAnimationFrame(loop);
 		}
@@ -9129,9 +9136,9 @@ var Pool=(function(){
 		return rst;
 	}
 
-	Pool.getItemByCreateFun=function(sign,createFun){
+	Pool.getItemByCreateFun=function(sign,createFun,caller){
 		var pool=Pool.getPoolBySign(sign);
-		var rst=pool.length ? pool.pop():createFun();
+		var rst=pool.length ? pool.pop():createFun.call(caller);
 		rst["__InPool"]=false;
 		return rst;
 	}
@@ -12302,6 +12309,19 @@ var WebAudioSound=(function(_super){
 		this._removeLoadEvents();
 		WebAudioSound.__loadingSound[this.url]=false;
 		this.event(/*laya.events.Event.ERROR*/"error");
+		if (!this.__toPlays)return;
+		var i=0,len=0;
+		var toPlays;
+		toPlays=this.__toPlays;
+		len=toPlays.length;
+		var tParams;
+		for (i=0;i < len;i++){
+			tParams=toPlays[i];
+			if (tParams[2] && !(tParams [2]).isStopped){
+				(tParams [2]).event(/*laya.events.Event.ERROR*/"error");
+			}
+		}
+		this.__toPlays.length=0;
 	}
 
 	__proto._loaded=function(audioBuffer){
@@ -12419,6 +12439,7 @@ var WebAudioSound=(function(_super){
 		if (WebAudioSound.ctx.state=="running"){
 			Browser.document.removeEventListener("mousedown",WebAudioSound._unlock,true);
 			Browser.document.removeEventListener("touchend",WebAudioSound._unlock,true);
+			Browser.document.removeEventListener("touchstart",WebAudioSound._unlock,true);
 			WebAudioSound._unlocked=true;
 		}
 	}
@@ -12428,6 +12449,7 @@ var WebAudioSound=(function(_super){
 			WebAudioSound._unlock();
 			Browser.document.addEventListener("mousedown",WebAudioSound._unlock,true);
 			Browser.document.addEventListener("touchend",WebAudioSound._unlock,true);
+			Browser.document.addEventListener("touchstart",WebAudioSound._unlock,true);
 		}
 	}
 
@@ -12848,8 +12870,10 @@ var Loader=(function(_super){
 						var tPic=pics[obj.frame.idx ? obj.frame.idx :0];
 						var url=URL.formatURL(directory+name);
 						tPic.scaleRate=scaleRate;
-						Loader.cacheRes(url,Texture.create(tPic,obj.frame.x,obj.frame.y,obj.frame.w,obj.frame.h,obj.spriteSourceSize.x,obj.spriteSourceSize.y,obj.sourceSize.w,obj.sourceSize.h));
-						Loader.loadedMap[url].url=url;
+						var tTexture;
+						tTexture=Texture.create(tPic,obj.frame.x,obj.frame.y,obj.frame.w,obj.frame.h,obj.spriteSourceSize.x,obj.spriteSourceSize.y,obj.sourceSize.w,obj.sourceSize.h);
+						Loader.cacheRes(url,tTexture);
+						tTexture.url=url;
 						map.push(url);
 					}
 					}else{
@@ -13002,7 +13026,7 @@ var Loader=(function(_super){
 		var arr=laya.net.Loader.getAtlas(url);
 		var res=(arr && arr.length>0)? laya.net.Loader.getRes(arr[0]):laya.net.Loader.getRes(url);
 		if (res && res.bitmap){
-			if (Render.isConchApp){
+			if (Render.isConchApp && !Render.isConchWebGL){
 				if (res.bitmap.source.releaseTexture){
 					res.bitmap.source.releaseTexture();
 				}
@@ -17727,6 +17751,9 @@ var Text=(function(_super){
 			this._charSize.height=this._currBitmapFont.getMaxHeight();
 			}else {
 			var measureResult=Browser.context.measureText(Text._testWord);
+			if (Render.isConchApp && measureResult.width===0 && measureResult.height===0){
+				measureResult=Browser.context.measureText('W');
+			}
 			this._charSize.width=measureResult.width;
 			this._charSize.height=(measureResult.height || this.fontSize);
 		};
@@ -17895,7 +17922,7 @@ var Text=(function(_super){
 	*/
 	__getset(0,__proto,'height',function(){
 		if (this._height)return this._height;
-		return this.textHeight+this.padding[0]+this.padding[2];
+		return this.textHeight;
 		},function(value){
 		if (value !=this._height){
 			Laya.superSet(Sprite,this,'height',value);
@@ -18583,7 +18610,7 @@ var Stage=(function(_super){
 			}
 		}
 		if (Render.isConchNode)return;
-		if (this.renderingEnabled && (isFastMode || !isDoubleLoop)){
+		if (this.renderingEnabled && (isFastMode || !isDoubleLoop || Render.isConchWebGL)){
 			if (Render.isWebGL){
 				context.clear();
 				_super.prototype.render.call(this,context,x,y);
@@ -19764,7 +19791,7 @@ var FrameAnimation=(function(_super){
 			this._calculateFrameValues(keyframes[i],keyframes[i+1],frames);
 		}
 		if (len==0){
-			frames[0]=keyframes[0].value;
+			frames[keyframes[0].index]=keyframes[0].value;
 			if (this._animationNewFrames)
 				this._animationNewFrames[keyframes[0].index]=true;
 		}
@@ -20879,7 +20906,8 @@ var GraphicAnimation=(function(_super){
 			var vArr=obj[key];
 			if (frame >=vArr.length)
 				frame=vArr.length-1;
-			return obj[key][frame];
+			if(obj[key][frame]!=undefined)
+				return obj[key][frame];
 		}
 		if (obj2.hasOwnProperty(key)){
 			return obj2[key];

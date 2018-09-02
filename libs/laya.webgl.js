@@ -4332,9 +4332,7 @@ var WebGL=(function(){
 			if (canvasWidth <=0 || canvasHeight <=0){
 				console.log("[error] canvasWidth and canvasHeight should greater than zero");
 			}
-			offsetX-=sprite.x;
-			offsetY-=sprite.y;
-			canvasWidth |=1;canvasHeight |=1;offsetX |=1;offsetY |=1;
+			canvasWidth |=0;canvasHeight |=0;offsetX |=0;offsetY |=0;
 			var renderTarget=RenderTarget2D.create(canvasWidth,canvasHeight,/*laya.webgl.WebGLContext.RGBA*/0x1908,/*laya.webgl.WebGLContext.UNSIGNED_BYTE*/0x1401,0,false);
 			renderTarget.start();
 			renderTarget.clear(0,0,0,0);
@@ -5389,6 +5387,36 @@ var WebGLContext2D=(function(_super){
 							}
 						}
 						other.height=height;
+						break ;
+					case "no-repeat":
+						if (ox < 0){
+							if (texture.width+ox > width){
+								other.width=width;
+								}else {
+								other.width=texture.width+ox;
+							}
+							}else {
+							other.ox=ox;
+							if (texture.width+ox > width){
+								other.width=width-ox;
+								}else {
+								other.width=texture.width;
+							}
+						}
+						if (oy < 0){
+							if (texture.height+oy > height){
+								other.height=height;
+								}else {
+								other.height=texture.height+oy;
+							}
+							}else {
+							other.oy=oy;
+							if (texture.height+oy > height){
+								other.height=height-oy;
+								}else {
+								other.height=texture.height;
+							}
+						}
 						break ;
 					default :
 						other.width=width;
@@ -7957,10 +7985,12 @@ var AtlasWebGLCanvas=(function(_super){
 			var preTexture=WebGLContext.curBindTexValue;
 			WebGLContext.bindTexture(gl,/*laya.webgl.WebGLContext.TEXTURE_2D*/0x0DE1,this._source);
 			if (Render.isConchWebGL){
-				(xoffset-1 >=0)&& (gl.texSubImage2DEx(true,/*laya.webgl.WebGLContext.TEXTURE_2D*/0x0DE1,0,xoffset-1,yoffset,/*laya.webgl.WebGLContext.RGBA*/0x1908,/*laya.webgl.WebGLContext.UNSIGNED_BYTE*/0x1401,bitmap));
-				(xoffset+1 <=this._w)&& (gl.texSubImage2DEx(true,/*laya.webgl.WebGLContext.TEXTURE_2D*/0x0DE1,0,xoffset+1,yoffset,/*laya.webgl.WebGLContext.RGBA*/0x1908,/*laya.webgl.WebGLContext.UNSIGNED_BYTE*/0x1401,bitmap));
-				(yoffset-1 >=0)&& (gl.texSubImage2DEx(true,/*laya.webgl.WebGLContext.TEXTURE_2D*/0x0DE1,0,xoffset,yoffset-1,/*laya.webgl.WebGLContext.RGBA*/0x1908,/*laya.webgl.WebGLContext.UNSIGNED_BYTE*/0x1401,bitmap));
-				(yoffset+1 <=this._h)&& (gl.texSubImage2DEx(true,/*laya.webgl.WebGLContext.TEXTURE_2D*/0x0DE1,0,xoffset,yoffset+1,/*laya.webgl.WebGLContext.RGBA*/0x1908,/*laya.webgl.WebGLContext.UNSIGNED_BYTE*/0x1401,bitmap));
+				if (/*__JS__ */bitmap !==ConchTextCanvas){
+					(xoffset-1 >=0)&& (gl.texSubImage2DEx(true,/*laya.webgl.WebGLContext.TEXTURE_2D*/0x0DE1,0,xoffset-1,yoffset,/*laya.webgl.WebGLContext.RGBA*/0x1908,/*laya.webgl.WebGLContext.UNSIGNED_BYTE*/0x1401,bitmap));
+					(xoffset+1 <=this._w)&& (gl.texSubImage2DEx(true,/*laya.webgl.WebGLContext.TEXTURE_2D*/0x0DE1,0,xoffset+1,yoffset,/*laya.webgl.WebGLContext.RGBA*/0x1908,/*laya.webgl.WebGLContext.UNSIGNED_BYTE*/0x1401,bitmap));
+					(yoffset-1 >=0)&& (gl.texSubImage2DEx(true,/*laya.webgl.WebGLContext.TEXTURE_2D*/0x0DE1,0,xoffset,yoffset-1,/*laya.webgl.WebGLContext.RGBA*/0x1908,/*laya.webgl.WebGLContext.UNSIGNED_BYTE*/0x1401,bitmap));
+					(yoffset+1 <=this._h)&& (gl.texSubImage2DEx(true,/*laya.webgl.WebGLContext.TEXTURE_2D*/0x0DE1,0,xoffset,yoffset+1,/*laya.webgl.WebGLContext.RGBA*/0x1908,/*laya.webgl.WebGLContext.UNSIGNED_BYTE*/0x1401,bitmap));
+				}
 				gl.texSubImage2DEx(true,/*laya.webgl.WebGLContext.TEXTURE_2D*/0x0DE1,0,xoffset,yoffset,/*laya.webgl.WebGLContext.RGBA*/0x1908,/*laya.webgl.WebGLContext.UNSIGNED_BYTE*/0x1401,bitmap);
 			}
 			else {
@@ -8052,6 +8082,7 @@ var WebGLCanvas=(function(_super){
 	__proto.destroy=function(){
 		this._ctx && this._ctx.destroy();
 		this._ctx=null;
+		laya.resource.Resource.prototype.destroy.call(this);
 	}
 
 	__proto._setContext=function(context){
@@ -8190,6 +8221,7 @@ __proto.toBase64=function(type,encoderOptions,callBack){
 }
 
 
+//由于resource的dispose被郭磊改成了destroy，这里会重载父类的destroy，所以必须调用这个，否则会有泄露。
 __getset(0,__proto,'context',function(){
 	return this._ctx;
 });
@@ -8289,7 +8321,8 @@ var WebGLCharImage=(function(_super){
 			if (this.xs !=1 || this.ys !=1){
 				nFontSize=parseInt(nFontSize *((this.xs > this.ys)? this.xs :this.ys)+"");
 			};
-			var sFont="normal 100 "+nFontSize+"px Arial";
+			var sFont="normal 100 "+this.font;
+			sFont=sFont.replace(WebGLCharImage._fontSizeReg,nFontSize);
 			if (this.borderColor){
 				sFont+=" 1 "+this.borderColor;
 			}
@@ -8299,6 +8332,7 @@ var WebGLCharImage=(function(_super){
 			this._ctx.fillText(this.char,this.CborderSize,this.CborderSize,null,null,null);
 			}else {
 			this._ctx.save();
+			this._ctx.lineJoin="round";
 			(this._ctx).clearRect(0,0,this.cw+this.CborderSize *2,this.ch+this.CborderSize *2);
 			this._ctx.font=this.font;
 			if (Text.RightToLeft){
@@ -8378,6 +8412,7 @@ var WebGLCharImage=(function(_super){
 		return char;
 	}
 
+	WebGLCharImage._fontSizeReg=new RegExp("\\d+(?=px)","g");
 	return WebGLCharImage;
 })(Bitmap)
 
@@ -9604,6 +9639,7 @@ var VertexBuffer2D=(function(_super){
 
 	__proto.disposeResource=function(){
 		_super.prototype.disposeResource.call(this);
+		return;
 		var enableAtributes=Buffer._enableAtributes;
 		if (!Render.isConchWebGL){
 			for (var i=0;i < 10;i++){

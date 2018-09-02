@@ -5233,7 +5233,7 @@ var MovieClip=(function(_super){
 	*/
 	__proto.load=function(url,atlas,atlasPath){
 		(atlas===void 0)&& (atlas=false);
-		this._url=url=URL.formatURL(url);
+		this._url=url;
 		if(atlas)this._atlasPath=atlasPath?atlasPath:url.split(".swf")[0]+".json";
 		this.stop();
 		this._clear();
